@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block head_title %}{% trans "Filter Store" %}{% endblock %}
+{% block 'content' %}
+
+<main class="container my-4">
+   
+	<div class="row">
+		<!-- Filters -->
+		<div class="col-md-3 order-2">
+			{% include 'include/filter.html' %}
+		</div>
+		<div class="col-md-9 order-1">
+			<!-- Products -->
+			{% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show pt-t mt-5" role="alert">
+                  {{ message}}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+			<div class="row pt-5 mt-5">
+                
+                {% if query %}
+                    {% if results %}
+                        {% for product in results  %}
+                        <!--Grid column-->
+                        {% include 'include/product.html' %}
+                        {% endfor %}
+                    
+                    
+                        
+                    {% else %}
+                
+                        <p class="h2 text-dark center">Products Not Avialable</p>
+                    {% endif %}
+                {% else %}
+                    {% for product in page_obj %}
+                        {% include 'include/product.html' %}
+                    {% endfor %}
+                {% endif %}
+            <!--Pagination-->
+			</div>
+			<p class="my-4 text-center"><a class="btn btn-dark btn-sm">Load More <i class="fa fa-sync"></i></a></p>
+		</div>
+	</div>
+</main>
+
+
+{% endblock 'content' %}

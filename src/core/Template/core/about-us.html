@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block head_title %}About {% endblock %}
+{% load static %}
+{% block 'content' %}
+      <div class="container main mt-5 pt-5">
+        <div class="row">
+          <div class="aboutus col-lg-8">
+            <h1>Welcome to <span class="blue-frame">Mak Afrika</span></h1>
+
+              <p>Crichub we can provide you with all the cricket update remotely and internationally
+                as well as a store to get your cricket kits.</p>
+              <br>
+              <h3>A wide <span class="green">partner</span> network:</h3>
+              <ul class="list-in-text">
+                <li>Lorem ipsum dolor sit amet consectetur.</li>
+                <li>Lorem ipsum dolor sit amet consectetur.</li>
+                <li>Lorem ipsum dolor sit amet consectetur.</li>
+                <li>Lorem ipsum dolor sit amet consectetur.</li>
+                <li>Lorem ipsum dolor sit amet consectetur.</li>
+              </ul>
+              <h1>We take <span class="blue-frame">care</span><br>of your business</h1>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit laudantium, labore inventore fugiat doloremque ab soluta at. Ex, corporis? Necessitatibus distinctio quam sed unde soluta delectus facilis, corporis iusto. Nihil modi eveniet laudantium quisquam a expedita est inventore doloremque, ad officiis odit earum alias asperiores. Nihil accusamus rerum delectus cumque ducimus illum temporibus ratione dolores quibusdam sint facere provident aperiam quis dignissimos reiciendis sed iure quidem eos quasi, nesciunt, ipsum voluptatem at debitis odio. Doloribus explicabo dignissimos nemo rerum sunt amet aspernatur distinctio, deleniti blanditiis cumque soluta officiis suscipit. Minima nesciunt dicta magnam aliquid inventore voluptates laudantium quaerat aperiam in.</p>
+              <figure class="quote text-start">
+                <blockquote class="blockquote">
+                  <p>A well-known quote, contained in a blockquote element.</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                  Someone famous in <cite title="Source Title">Source Title</cite>
+                </figcaption>
+              </figure>
+              
+
+              <div class="team text-center mt-5">
+                <h3>A <span class="green">team </span>that’s growing every day</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p>
+                <div class="team-person py-3">
+                  <div class="person">
+                    <div class="photo"><img src="{% static 'img/Logo.png' %}" alt=""></div>
+                    <span class="name">John Fox</span>
+                    <span>Marketing Manager</span>
+                  </div>
+                  <div class="person">
+                    <div class="photo"><img src="img/team-2.jpg" alt=""></div>
+                    <span class="name">Kate Rose</span>
+                    <span>SEO</span>
+                  </div>
+                  <div class="person">
+                    <div class="photo"><img src="img/team-3.jpg" alt=""></div>
+                    <span class="name">Anna Brown</span>
+                    <span>UI Expert</span>
+                  </div>
+                  <div class="person">
+                    <div class="photo"><img src="img/team-4.jpg" alt=""></div>
+                    <span class="name">Mike Doe</span>
+                    <span>Web Developer</span>
+                  </div>
+                </div>
+              </div>
+              <hr>
+
+              <div class="contact-page mb-3 mt-3">
+                <h1 class="underscore mb-5">Please <span class="blue-frame">let us know</span> if you have any questions</h1>
+                <div class="line"></div>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum sunt optio consequuntur ducimus odit. Deleniti optio saepe unde omnis. Sapiente aliquam repellendus error id veniam totam dolores recusandae non dolorum?</p>
+                <div class="line"></div>
+  
+                <form method="post" id="contactForm">
+                  {% csrf_token %}
+  
+                  <!-- Name input -->
+                  <div class="mb-3">
+                    <input class="form-control" name="name" id="name" type="text" placeholder="Name *" data-sb-validations="required" />
+                    <div class="invalid-feedback" data-sb-feedback="name:required">Name is required.</div>
+                  </div>
+              
+                  <!-- Email address input -->
+                  <div class="mb-3">
+                    <input class="form-control" name="email" id="emailAddress" type="email*" placeholder="Email Address *" data-sb-validations="required, email" />
+                    <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
+                    
+                  </div>
+              
+              
+                
+  
+                  <!-- Message input -->
+                  <div class="mb-3">
+                    
+                    <textarea name="message" class="form-control" id="contact" type="text" placeholder="Leave a Message" style="height: 10rem;" data-sb-validations="required"></textarea>
+                    <div class="invalid-feedback" data-sb-feedback="message:required">Message is required.</div>
+                  </div>
+              
+                  <!-- Form submit button -->
+                  <div class="d-grid">
+                    <button class="main-btn mt-0 disabled" id="submitButton" type="submit">Send message</button>
+                  </div>
+                </form>
+              </div>
+          </div>
+          <div class="sidebar col-lg-4">
+            
+            
+            
+          </div>
+        </div>
+      </div>
+     
+
+      {% endblock 'content' %}

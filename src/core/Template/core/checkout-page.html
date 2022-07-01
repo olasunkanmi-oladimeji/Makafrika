@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_template_tags %}
+{% block head_title %} Checkout {% endblock %}
+{% block 'content' %}
+
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container wow fadeIn">
+
+      <!-- Heading -->
+      <h2 class="my-5 h2 text-center">Checkout form</h2>
+      {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show pt-t mt-5" role="alert">
+              {{ message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+		
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+
+          <!--Card-->
+          <div class="card">
+           
+          
+           
+              <form class="card-body" method="post">
+                
+                {% csrf_token %}
+                
+                <!--Grid row-->
+                <div class="row">
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--firstName-->
+                    <div class="md-form ">
+                      <input type="text" id="firstName id_name" name="name"  class="form-control">
+                      <label for="firstName" class="">Name</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--lastName-->
+                    <div class="md-form">
+                      <input name="phone_no"  id="id_phone_no" type="tel" class="form-control">
+                      <label for="lastName" class="">Phone No</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                </div>
+                <!--Grid row-->
+  
+                
+  
+                <!--email-->
+                <div class="md-form mb-5">
+                  <input type="email" name="email" id="id_email" class="form-control" placeholder="youremail@example.com">
+                  <label for="email" class="">Email </label>
+                </div>
+  
+                <!--address-->
+                <div class="md-form mb-5">
+                  <input type="text" name="address" id="id_address" class="form-control" placeholder="1234 Main St">
+                  <label for="address" class="">Address</label>
+                </div>
+  
+  
+                <hr>
+  
+                
+  
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="id_set_default_shipping">
+                  <label class="custom-control-label" for="id_set_default_shipping" style="color:black">set default address: </label>
+                </div>
+        
+                <div class="custom-control custom-checkbox">
+                  
+                    <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                    
+  
+                    {% if default_shipping_address %}
+                    <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                    
+  
+                  <label style="color:black" class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.address|truncatewords:10 }}</label>
+                  {% endif %}
+                  
+  
+                </div>
+                <hr>
+  
+                <div class="d-block my-3">
+                  {% for value, name in form.fields.payment_option.choices %}
+                          <div class="custom-control custom-radio">
+                    
+                            <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
+                            <label style="color:black" class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                    
+                          </div>
+                  {% endfor %}
+                </div>
+                
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+  
+              </form>
+          
+            <!--Card content-->
+            
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+
+          
+          <div class="col-md-12 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill">{{ order.items.count }}</span>
+            </h4>
+            <ul class="list-group mb-3 z-depth-1">
+            {% for order_item in order.items.all %}
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</h6>
+                <small class="text-muted">{{ order_item.item.description}}</small>
+                </div>
+                <span class="text-muted">&#8358;{{ order_item.get_final_price }}</span>
+            </li>
+            {% endfor %}
+            {% if order.coupon %}
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>{{ order.coupon.code }}</small>
+                </div>
+                <span class="text-success">-&#8358;{{ order.coupon.amount }}</span>
+            </li>
+            {% endif %}
+            <li class="list-group-item d-flex text-dark justify-content-between">
+                <span>Total (NGN)</span>
+                <strong   class="">&#8358;{{ order.get_total }}</strong>
+            </li>
+            </ul>
+        
+            {% if DISPLAY_COUPON_FORM %}
+            <form class="card p-2" action="{% url 'core:addcoupon'%}" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    {{ couponform.code }}
+                    <div class="input-group-append">
+                    <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+        
+        </div>
+        
+        
+          
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+{% endblock 'content' %}

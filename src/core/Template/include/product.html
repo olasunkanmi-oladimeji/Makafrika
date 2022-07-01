@@ -1,0 +1,70 @@
+<div class=" col-md-3 mb-4">
+
+    <!--Card-->
+    <div class=" card shadow z-depth-2">
+
+      <!--Card image-->
+      <div class="view overlay  zoom">
+        <img src="{{product.image.url}}" height="190" class="card-img-top"
+          alt="">
+        <a hr{{product.title}}ef="{{product.get_absolute_url}}">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <!--Card image-->
+
+      <!--Card content-->
+      <div class="card-body text-center">
+        {% if product.discount_price %}
+    <a href="">
+        <span class="top-right badge badge-dark" >
+          <span style="color: gold;">{{product.get_discount}} %</span>
+           </span>
+    </a>
+    {%endif %}
+        <!--Category & Title-->
+        <a href="{{product.category.get_absolute_url}}" class="grey-text">
+          <h5>{{product.category}}</h5>
+        </a>
+        <h5>
+          <strong>
+            <a href="{{product.get_absolute_url}}" class="dark-grey-text">{{product.title}}
+              {% if product.label_text %}
+              <span class="badge badge-pill bg-{{product.get_label_display}} ">
+                {{product.label_text}} 
+              </span>
+              {%else%}
+              <span class=""> <br></span>
+              {% endif %}
+              
+            </a>
+          </strong>
+        </h5>
+
+      
+
+      </div>
+      <!--Card content-->
+      <div class="card-footer ">
+        <span class="float-left">
+          {% if product.discount_price %}&#8358; {{product.price}} <br>
+          <span class="text-muted">&#8358; {{product.discount_price}}</span>
+          {% else%}
+          &#8358; {{product.price}}
+          {% endif%}
+        </span>
+        <div class=" float-right ">
+          <a  href="{{product.get_add_to_cart_url}}" data-product="{{product.id}}">
+            <i class=" fa fa-cart-plus blue-text mr-3 "></i></a>
+          {% if user.is_authenticated %}
+          <a href="{% url 'core:add_wishlist' product.id %}" 
+          class="   " data-product="{{product.id}}"><i class="fa fa-heart red-text"></i></a>
+        </div>
+       
+        {% endif %}
+       
+      </div>
+    </div>
+    <!--Card-->
+
+  </div>

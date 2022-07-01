@@ -1,0 +1,71 @@
+{% load static %}
+<script type="text/javascript" src="{% static 'js/product-filter.js' %}"></script>
+			<h3 class="mb-4 border-bottom pb-1">Filters</h3>
+			<!-- Price Filter -->
+			<div class="card mb-4">
+				<form action="{% if category %} {% url 'core:category_detail' category.slug %}{%endif%}" method="get">
+				<h6 class="card-header">Price <input class="float-right border-0 blue-text" type="submit" value="Apply"></h6>
+				<div class="list-group list-group-flush">
+					
+					<li class="list-group-item">
+						
+						<input class="form-control" type="range" value="{{minMaxPrice.price__min}}"  
+						 max=100000 min=500 id="rangeInput" oninput="maxPrice.value=this.value" />
+						
+					</li>
+					<li class="list-group-item">
+						
+						 <input type="number" value="{{minMaxPrice.price__min}}" 
+						max={{minMaxPrice.price__max}} min={{minMaxPrice.price__min}} 
+						name="maxPrice" 
+						class="form-control" id="maxPrice" 
+						onkeyup="rangeInput.value=this.value" id="maxPrice" />
+						
+						
+					</li>
+				</div>
+			</form>
+			</div>
+			<!-- Filter 1 -->
+			<div class="card mb-4">
+				<form action="{% if category %} {% url 'core:category_detail' category.slug %}{%endif%}" method="get">
+				<h6 class="card-header">Colors   </h6>
+				<div class="list-group list-group-flush">
+					
+					<div class=" list-group-item ">
+						<li class="d-flex"></li>
+						{% for color in colors %}
+						
+							<input class="filter-checkbox"
+							 type="submit" name="color" value="{{color.id}}" for="check" 
+							 style="
+							 border: 0; 
+							 color:{{color.color_code}};
+							 cursor: pointer;
+							  padding: 5px; 
+							  margin:2px;
+							  background-color: {{color.color_code}}; ">
+						
+							
+						
+						
+						{% endfor %}
+					</li>
+					</div>
+				</form>
+				</div>
+			</div>
+			<!-- Filter 2 -->
+			<div class="card mb-4">
+				<h6 class="card-header">Categories</h6>
+				<div class="list-group list-group-flush">
+					{% for cat in categorys %}
+					<li class="list-group-item">
+						<a href="{{cat.get_absolute_url}}" class="filter-checkbox" id="cat" data-filter="category" type="checkbox" >{{cat.title}}</a>
+						
+					</li>
+					{% endfor %}
+				</div>
+			</div>
+		
+		

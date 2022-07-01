@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block 'content' %}
+<main class="container my-4 mt-5 pt-5">
+	<!-- Featured Products -->
+	
+	<div class="mx-auto" >
+		<h1 class="my-4 border-bottom pb-1">{% trans "Sign Up" %}</h1>
+		<p>{% blocktrans %}Already have an account? Then please <a class="text-primary" href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+		<form class=" p-3 card" id="signup_form" method="post" action="{% url 'account_signup' %}">
+		  {% csrf_token %}
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group" >
+					<label for="">Username</label>
+					<input name="username" type="text" class="form-control" placeholder="Username">
+				  </div>
+				  <div class="form-group" >
+					<label for="">Email address</label>
+					<input name="email" type="email" class="form-control"  placeholder="name@example.com">
+				  </div>
+			  </div>
+			 
+			  <div class="col-sm-6">
+					<div class="form-group ">
+					<label for="">Password</label>
+					<input name="password1" type="password" class="form-control" placeholder="password">
+				</div>
+				<div class="form-group" >
+					<label for="exampleFormControlInput1">confirm password</label>
+					<input name="password2" type="password" class="form-control"  placeholder="confirm password">
+				</div>
+				</div>
+		</div>
+		  
+		  {% if redirect_field_value %}
+		  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		  {% endif %}
+		  <button class='btn btn-primary' type="submit">{% trans "Sign Up" %} &raquo;</button>
+		</form>
+	</div>
+</main>
+{% endblock 'content' %}

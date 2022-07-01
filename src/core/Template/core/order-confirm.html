@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %} 
+{% block head_title %}{% trans "Checkout Payment" %}{% endblock %}
+{% block 'content' %}
+
+<!--Main layout-->
+
+  <main class="mt-5 pt-5">
+      <div class="">
+      {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+      {% endif %}
+      </div>
+    <div class="container ">
+      <img class="mx-auto d-block "  style="width:3.5rem ;" 
+      src="{% static 'img/logo.png' %}"  alt="Maklogo" />
+      <!--Grid row-->
+      <div class="row m-5 d-flex justify-content-center">
+        
+        <!--Grid column-->
+        <div class="col-md-5 mb-2 ">
+          
+          <form id="paymentForm">
+          <div class="card" >
+            <h5 class="card-header">Order Details</h5>
+            <div class="card-body">
+             
+              
+              <p class="card-text">Name : <br><span class="text-muted"> {{order.shipping_address.name}}</span></p>             
+              <p class="card-text">Address : <br><span class="text-muted"> {{order.shipping_address.address}}</span></p>
+              <p class="card-text">tel no : <br><span class="text-muted">{{order.shipping_address.phone_no}}</span></p>
+               <p class="text-muted">Email : <input class="form-text border-0 text-muted" style="width:100%" type="email" id="email-address" value="{{order.shipping_address.email}}"></p>
+              
+              
+              <p class="text-muted ">Total Amount :  <input class=" text-muted form-text border-0" style="width:100%" id="amount" value=" {{order.get_total|floatformat:2}}" ></p>
+              <button type="button" onclick="payWithPaystack()"
+                class="btn btn-primary col-12" data-mdb-ripple-color="dark"> Procced to Payment </button>
+              
+                <script src="https://js.paystack.co/v1/inline.js"></script>
+            </div>
+          </div>
+        </form>
+
+
+        </div>
+        <!--Grid column-->
+        <div class="col-md-5 mb-2">
+
+           
+            <div class="">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Your cart</span>
+              <span class="badge badge-secondary badge-pill">{{ order.items.count }}</span>
+              </h4>
+              <ul class="list-group mb-3 z-depth-1">
+              {% for order_item in order.items.all %}
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <img src="{{ order_item.item.image.url}}" style="width:5rem" alt="..." class="img-thumbnail">
+                  <div>
+                    
+                  <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</h6>
+                  <small class="text-muted">{{ order_item.item.description}}</small>
+                  </div>
+                  <span class="text-muted">&#8358;{{ order_item.get_final_price|floatformat:2 }}</span>
+              </li>
+              {% endfor %}
+              {% if order.coupon %}
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                  <div class="text-success">
+                  <h6 class="my-0">Promo code</h6>
+                  <small>{{ order.coupon.code }}</small>
+                  </div>
+                  <span class="text-success">-&#8358;{{ order.coupon.amount }}</span>
+              </li>
+              {% endif %}
+              <li class="list-group-item d-flex text-dark justify-content-between">
+                  <span>Total (NGN)</span>
+                  <strong   class="">&#8358;{{ order.get_total|floatformat:2 }}</strong>
+              </li>
+              </ul>
+          
+              {% if DISPLAY_COUPON_FORM %}
+              <form class="card p-2" action="" method="POST">
+                  {% csrf_token %}
+                  <div class="input-group">
+                      {{ couponform.code }}
+                      <div class="input-group-append">
+                      <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
+                      </div>
+                  </div>
+              </form>
+              {% endif %}
+          
+          </div>
+      </div>
+       
+
+
+      </div>
+
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+<script>
+const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("click", payWithPaystack, false);
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: '{{pk_public}}', // Replace with your public key
+    email: document.getElementById("email-address").value,
+    amount: document.getElementById("amount").value * 100,
+    ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    // label: "Optional string that replaces customer email"
+    onClose: function(){
+      alert('Window closed.');
+    },
+    callback: function(response){
+      window.location = "verify/" + response.reference;
+    }
+  });
+  handler.openIframe();
+}
+
+</script>
+
+{% endblock 'content' %}
+

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'content' %}
+<main class="container my-4 mt-5 pt-5">
+	<!-- Featured Products -->
+	<h3 class="my-4 border-bottom pb-1">My Orders</h3>
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }} alert-dismissible fade show pt-t mt-5" role="alert">
+	  {{ message}}
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	{% endfor %}
+{% endif %}
+	<div class="">
+
+		<div class="mx-auto">
+			<div class="table-responsive">
+				<table class="table-bordered table">
+					<thead>
+						<tr>
+							<th>OrderNo</th>
+							<th>Total Amt</th>
+							<th>Status</th>
+							<th>Order Time</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in orders %}
+						<tr>
+							<td><a href="{% url 'core:my_order_items' order.id %}" class="btn btn-sm btn-dark">{{order.ref_code}}</a></td>
+							<td>{{order.payment.amount}}</td>
+							<td>{{order.being_delivered}}</td>
+							<td>{{order.delivery_date}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock 'content' %}
